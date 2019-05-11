@@ -112,6 +112,7 @@ module inside() {
 
 // put something at the top of the key, with no adjustments for dishing
 module top_placement(depth_difference) {
+  echo ($dish_skew_x, $top_skew + $dish_skew_y, $total_depth - depth_difference);
   translate([$dish_skew_x, $top_skew + $dish_skew_y, $total_depth - depth_difference]){
     rotate([-$top_tilt / $key_height,0,0]){
       children();
@@ -174,12 +175,13 @@ module top_of_key(){
   }
 }
 
-module keytext(text, position, font_size, depth) {
+module keytext(text, position, font_size, depth=0.4, halign="center") {
   woffset = (top_total_key_width()/3.5) * position[0];
   hoffset = (top_total_key_height()/3.5) * -position[1];
   translate([woffset, hoffset, -depth]){
+    echo (woffset, hoffset, -depth, $dish_depth);
     linear_extrude(height=$dish_depth){
-      text(text=text, font=$font, size=font_size, halign="center", valign="center");
+      text(text=text, font=$font, size=font_size, halign=halign, valign="center");
     }
   }
 }
